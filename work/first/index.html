@@ -89,10 +89,10 @@ $(function() {
     $(this).fadeOut(2000);
   }
   $('#q4').click(function() {
-    $(this).prepend('DQMの中の前')
-           .append('DQMの中の後')
-           .before('DQMの前')
-           .after('DQMの後')
+    $(this).prepend('DOMの中の前')
+           .append('DOMの中の後')
+           .before('DOMの前')
+           .after('DOMの後')
   });
   $('#q5').click(function() {
     $(this).addClass('large');
@@ -104,9 +104,9 @@ $(function() {
     },2000)
   });
   $('#q7').find('li').click(function() {
-    var targetNum = $(this).index();
-    console.log(targetNum);
-    alert(targetNum);
+    var num = $(this).index();
+    console.log(num);
+    alert(num);
   });
   $('#q8').hover(function() {
     $(this).addClass('large');

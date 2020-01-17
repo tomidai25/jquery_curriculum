@@ -85,22 +85,24 @@ $(function() {
     $(this).css('background-color', 'pink');
   });
   $('#q3').click(fadeout);
+
   function fadeout() {
     $(this).fadeOut(2000);
   }
+
   $('#q4').click(function() {
     $(this).prepend('DOMの中の前')
            .append('DOMの中の後')
            .before('DOMの前')
-           .after('DOMの後')
+           .after('DOMの後');
   });
   $('#q5').click(function() {
     $(this).addClass('large');
   });
   $('#q6').click(function() {
     $(this).animate({
-      'marginLeft': 100,
-      'marginTop': 100
+      'marginLeft': '100px',
+      'marginTop': '100px'
     },2000)
   });
   $('#q7').find('li').click(function() {

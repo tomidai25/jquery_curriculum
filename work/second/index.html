@@ -29,15 +29,15 @@
       // .fadeOut() 一定時間かけてフェードアウトする。
       $(function() {
         $('.modal-show').on('click', function() {
-          modal01();
-          });
-        $('.modal-close').on('click', function() {
-          modal02();
+          modalShow();
         });
-        function modal01() {
+        $('.modal-close').on('click', function() {
+          modalClose();
+        });
+        function modalShow() {
           $('.modal').fadeIn(1000);
         }
-        function modal02() {
+        function modalClose() {
           $('.modal').fadeOut(1000);
         }
       });

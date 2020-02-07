@@ -14,7 +14,7 @@
       <form class="register">
         <div class="input-wrapper">
           <input type="text" class="input" placeholder="Input Your Name.">
-          <p class="rest-count">30</p>
+          <p class="rest-count"></p>
         </div>
         <button class="register-btn">Register</button>
       </form>
@@ -27,12 +27,12 @@
       // .replace(/\s+/g,'').length 改行を含まない文字数を取得します。
       // .val() input要素のvalueを取得します。
       $(function() {
+        var countMax = 20;
+        $('.rest-count').text(countMax);
         $('.input').keyup(function() {
-          $(".rest-count").text(30-($(this).val().replace(/\s+/g, '').length))
-          //console.log($(this).val().replace(/\s+/g, '').length)
           var count = $(this).val().replace(/\s+/g, '').length;
-          //console.log('成功')
-          if(count > 30) {
+          $(".rest-count").text(countMax-count)
+          if(count > countMax) {
             $('.rest-count').addClass('red');
           } else {
             $('.rest-count').removeClass('red');

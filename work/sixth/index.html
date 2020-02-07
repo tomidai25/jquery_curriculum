@@ -30,9 +30,9 @@
         $('.input').keyup(function() {
           $(".rest-count").text(30-($(this).val().replace(/\s+/g, '').length))
           //console.log($(this).val().replace(/\s+/g, '').length)
-          var value = $(this).val().replace(/\s+/g, '').length;
+          var count = $(this).val().replace(/\s+/g, '').length;
           //console.log('成功')
-          if(value > 30) {
+          if(count > 30) {
             $('.rest-count').addClass('red');
           } else {
             $('.rest-count').removeClass('red');

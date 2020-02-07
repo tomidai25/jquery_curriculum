@@ -30,7 +30,7 @@
         var countMax = 20;
         $('.rest-count').text(countMax);
         $('.input').keyup(function() {
-          var count = $(this).val().replace(/\s+/g, '').length;
+          var count = $(this).val().replace(/\s+/g, '').length;　
           $(".rest-count").text(countMax-count)
           if(count > countMax) {
             $('.rest-count').addClass('red');

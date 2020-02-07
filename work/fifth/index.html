@@ -100,14 +100,15 @@
       $(function() {
         $('.select').change(function() {
           var value = $(this).val(); 
-        if(value=='all'){
-          $('.list li').each(function(){ $(this).show() });
+        if(value==='all') {
+          $('.list li').show();
         } else {
-        $('.list li').each(function(){
-        if($(this).data('category-type')==value){
-          $(this).show(); 
+        $('.list li').each(function(_, j) {
+          console.log(j);
+        if($(j).data('category-type') == value) {
+          $(j).show(); 
         } else {
-          $(this).hide(); 
+          $(j).hide(); 
         }
         });
         }

@@ -68,6 +68,57 @@
       //
       //
       //
+      $(function()　{
+        var pageNum = 0
+        var searchword = "";
+        var prevWord = "";
+        $('#js-search-button').on('click', function() {
+          pageNum = pageNum + 1;
+          searchword = $('#js-search-word').val();
+          searchItem();
+        });
+        
+        function searchItem() {
+          $.ajax({
+            url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+            type: 'GET',
+            datatype: 'json',
+            data: {
+              keyword: searchword,
+              applicationId: '1019399324990976605', 
+              booksGenreId: '001',
+              hits: '20',
+              page: pageNum
+            },
+          }).done(function(data) {
+            if(data.count > 0) {
+              $.each(data.Items, function (index, val) {
+                console.log(index);
+                console.log(val);
+                var listItem = $('<li class="lists__item">'
+                  + '<div class="lists__item__inner">'
+                  + '<a href="'+val.Item.itemUrl+'" class="lists__item__link" target="_blank">'
+                  + '<img src="'+val.Item.largeImageUrl+'"class="lists__item__img" alt="">'
+                  + '<p class="lists__item__detail">作品名:'+val.Item.title+'</p>'
+                  + '<p class="lists__item__detail">作者:'+val.Item.author+'</p>'
+                  + '<p class="lists__item__detail">出版社:'+val.Item.publisherName+'</p>'
+                  + '</a>'
+                  + '</div>'
+                  + '</li>')
+                $('.lists').prepend(listItem);
+              });
+            } else if(data.count === 0) {
+              $('ul').before('<div class="comment"</div>');
+              $('.comment').html('<p class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>');
+            }; 
+            console.log(data);
+          }).fail(function(data) {
+            $('ul').before('<div class="errorComment"</div>');
+              $('.errorComment').html('<p class="message">ネットワークが切れているか、検索ワードの指定がありません。</p>');
+            console.log(data);
+          }); 
+        }
+      });
     </script>
   </body>
 </html>

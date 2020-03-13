@@ -73,10 +73,20 @@
         var searchword = "";
         var prevWord = "";
         $('#js-search-button').on('click', function() {
-          pageNum = pageNum + 1;
+          $('.coment').remove();
+          $('.seachErrorComent').remove();
+          $('.requestErrorComent').remove();
+          $('.netErrorComent').remove();
           searchword = $('#js-search-word').val();
+          if(searchword === prevWord) {
+            pageNum = pageNum + 1;
+          } else {
+            pageNum = 1;
+            $('.lists').empty();
+          };
+          prevWord = $('#js-search-word').val();
           searchItem();
-        });
+          });
         
         function searchItem() {
           $.ajax({
@@ -92,10 +102,11 @@
             },
           }).done(function(data) {
             if(data.count > 0) {
+              var listItem = '';
               $.each(data.Items, function (index, val) {
                 console.log(index);
                 console.log(val);
-                var listItem = $('<li class="lists__item">'
+                listItem += '<li class="lists__item">'
                   + '<div class="lists__item__inner">'
                   + '<a href="'+val.Item.itemUrl+'" class="lists__item__link" target="_blank">'
                   + '<img src="'+val.Item.largeImageUrl+'"class="lists__item__img" alt="">'
@@ -104,17 +115,25 @@
                   + '<p class="lists__item__detail">出版社:'+val.Item.publisherName+'</p>'
                   + '</a>'
                   + '</div>'
-                  + '</li>')
-                $('.lists').prepend(listItem);
+                  + '</li>'
               });
+              $('.lists').prepend(listItem);
             } else if(data.count === 0) {
-              $('ul').before('<div class="comment"</div>');
-              $('.comment').html('<p class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>');
+              $('.lists').before('<div class="coment"</div>');
+              $('.coment').html('<p class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>');
             }; 
             console.log(data);
           }).fail(function(data) {
-            $('ul').before('<div class="errorComment"</div>');
-              $('.errorComment').html('<p class="message">ネットワークが切れているか、検索ワードの指定がありません。</p>');
+            if(data.status === 400) {
+              $('.lists').before('<div class="seachErrorComent"</div>');
+              $('.seachErrorComent').html('<p class="message">検索ワードの指定がありません。</p>');
+            } else if(data.status === 429) {
+              $('.lists').before('<div class="requestErrorComent"</div>');
+              $('.requestErrorComent').html('<p class="message">リクエスト過多。</p>');
+            } else if(data.status === 0) {
+              $('.lists').before('<div class="netErrorComent"</div>');
+              $('.netErrorComent').html('<p class="message">通信エラー。</p>');
+            };
             console.log(data);
           }); 
         }

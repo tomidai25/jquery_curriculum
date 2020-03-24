@@ -74,7 +74,6 @@
         var prevWord = "";
         $('#js-search-button').on('click', function() {
           $('.coment').remove();
-          $('.errorComent').remove();
           searchword = $('#js-search-word').val();
           if(searchword === prevWord) {
             pageNum = pageNum + 1;
@@ -99,8 +98,12 @@
               page: pageNum
             },
           }).done(function(data) {
-            search();
-            function search() {
+            search(data);
+          }).fail(function(error) {
+            errorGet(error);
+          }); 
+          
+          function search(data) {
               if(data.count > 0) {
                 var listItem = '';
                 $.each(data.Items, function (index, val) {
@@ -117,29 +120,25 @@
                 });
                 $('.lists').prepend(listItem);
               } else if(data.count === 0) {
-                $('.lists').before('<div class="coment"</div>');
-                $('.coment').html('<p class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>');
+                showText("検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。");
               }; 
             };
-          }).fail(function(error) {
-            errorGet();
-            function errorGet() {
+            function errorGet(error) {
               if(error.status === 400) {
-                $('.lists').before('<div class="errorComent"</div>');
-                $('.errorComent').html('<p class="message">検索ワードの指定がありません。</p>');
+                showText("検索ワードの指定がありません。")
               } else if(error.status === 429) {
-                $('.lists').before('<div class="errorComent"</div>');
-                $('.errorComent').html('<p class="message">検索結果を表示できません。時間を空けてから再度、検索してください。</p>');
+                showText("検索結果を表示できません。時間を空けてから再度、検索してください。")
               } else if(error.status === 0) {
-                $('.lists').before('<div class="errorComent"</div>');
-                $('.errorComent').html('<p class="message">ネットワークに接続できていません。ネットワークの接続を確認してください。</p>');
+                showText("ネットワークに接続できていません。ネットワークの接続を確認してください。")
               }　else if(error.status === 500) {
-                $('.lists').before('<div class="errorComent"</div>');
-                $('.errorComent').html('<p class="message">予期せぬ通信エラーが起きています。長時間続くようであればお問い合わせください。</p>');
+                showText("予期せぬ通信エラーが起きています。長時間続くようであればお問い合わせください。")
               };
             };
-          }); 
         };
+        function showText(text) {
+          $('.lists').before('<div class="coment"</div>');
+          $('.coment').html('<p class="message">'+text+'</p>');
+        }
       });
     </script>
   </body>
